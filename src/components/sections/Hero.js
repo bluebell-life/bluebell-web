@@ -46,7 +46,6 @@ const Hero = ({
         try {
             if (tokenContract) {
                 tokenContract.methods.symbol().call().then((tn) => {
-                    console.log('tn', tn);
                     setTokenName(tn);
                 });
             }
@@ -100,7 +99,6 @@ const Hero = ({
                                         const fi = await tokenContract.methods.balanceOf(FLOWER_SHOP_ADDRESS).call();
                                         setInventory(fi)
                                         setBuyModalOpen(true)
-                                        console.log('setBuyModalOpen')
                                     }}>{t('BASIC.GET_COINS')}</Button>
                                     <Modal isOpen={buyModalOpen} onRequestClose={() => setBuyModalOpen(false)}>
                                         <div style={{display: 'flex',
@@ -135,7 +133,6 @@ const Hero = ({
                                                                 from: account,
                                                                 value: amount * flowerPrice
                                                             })
-                                                            console.log('buy result', result);
                                                             if (result && result.status) {
                                                                 toast.success(t('BASIC.BUY_SUCCESS'), {
                                                                     position: "top-center",
