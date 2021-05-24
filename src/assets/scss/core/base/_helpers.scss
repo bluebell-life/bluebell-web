@@ -502,6 +502,35 @@ img.has-shadow {
 	padding-top: 64px;
 }
 
+.display-f {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-around {
+	justify-content: space-around;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
 @include media( '<=medium' ) {
 
 	.ta-l-mobile {

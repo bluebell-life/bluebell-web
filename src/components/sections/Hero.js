@@ -5,14 +5,10 @@ import ButtonGroup from '../elements/ButtonGroup';
 import Button from '../elements/Button';
 import Image from '../elements/Image';
 import {useTranslation} from "react-i18next";
-import {toast} from "react-toastify"
-import {ERC20_ADDRESS} from "../../contracts/MainToken"
+import {ERC20_ADDRESS} from "../../contracts/ERC20Token"
 import {useWeb3} from "../../contexts/Web3Context"
-import {FLOWER_SHOP_ADDRESS} from "../../contracts/FlowerShop"
-import Input from "../elements/Input"
-import {utils} from "web3";
-import Modal from 'react-modal';
-import {Spinner} from "react-bootstrap";
+
+import {Link} from "react-router-dom";
 
 const propTypes = {
     ...SectionProps.types
@@ -33,26 +29,8 @@ const Hero = ({
                   ...props
               }) => {
 
-    const [tokenName, setTokenName] = useState('');
-    const [buyModalOpen, setBuyModalOpen] = useState(false);
-    const [flowerPrice, setFlowerPrice] = useState('-');
-    const [inventory, setInventory] = useState('-');
-    const [amount, setAmount] = useState(1);
-    const [buying, setBuying] = useState(false);
-    const {web3, login, data} = useWeb3();
-    const {tokenContract, shopContract, exploreUrl} = data;
-
-    useEffect(() => {
-        try {
-            if (tokenContract) {
-                tokenContract.methods.symbol().call().then((tn) => {
-                    setTokenName(tn);
-                });
-            }
-        } catch (e) {
-            console.error('Get token contract name error', e)
-        }
-    }, [tokenContract]);
+    const {data} = useWeb3();
+    const {exploreUrl} = data;
 
     const {t, i18n} = useTranslation();
     const outerClasses = classNames(
@@ -69,12 +47,6 @@ const Hero = ({
         topDivider && 'has-top-divider',
         bottomDivider && 'has-bottom-divider'
     );
-
-    let totalPrice, price = 0;
-    if (flowerPrice) {
-        price = parseInt(flowerPrice) * (Math.pow(10, -18));
-        totalPrice = amount * price;
-    }
 
     return (
         <section
@@ -93,92 +65,11 @@ const Hero = ({
                             </div>
                             <div className="reveal-from-bottom" data-reveal-delay="600">
                                 <ButtonGroup>
-                                    <Button color="primary" wideMobile onClick={async () => {
-                                        const fp = await shopContract.methods.flowerPrice(utils.asciiToHex(tokenName)).call()
-                                        setFlowerPrice(fp)
-                                        const fi = await tokenContract.methods.balanceOf(FLOWER_SHOP_ADDRESS).call();
-                                        setInventory(fi)
-                                        setBuyModalOpen(true)
-                                    }}>{t('BASIC.GET_COINS')}</Button>
-                                    <Modal isOpen={buyModalOpen} onRequestClose={() => setBuyModalOpen(false)}>
-                                        <div style={{display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center'}}>
-                                            <div className="text-color-primary mb-16" style={{fontSize: 32, fontWeight: 'bold'}}>
-                                                {t('BASIC.BUY_BLUEBELL')}
-                                            </div>
-                                            <div className="mb-16">
-                                                <div className="mb-16">{`${t('BASIC.REMAINING_INVENTORY')}: ${inventory} ${tokenName}`}</div>
-                                                <div className="mb-16">{`${t('BASIC.PRICE')}: ${price || '-'} BNB`}</div>
-                                                <div className="mb-16" style={{
-                                                    display: 'flex',
-                                                    flexDirection: 'row',
-                                                    alignItems: 'center'
-                                                }}>
-                                                    <span style={{marginRight: 8}}>{`${t('BASIC.QUANTITY')}:`}</span>
-                                                    <Input value={amount.toString()}
-                                                           onChange={(e) => setAmount(e.target.value)}/>
-                                                </div>
-                                                <div className="mb-16">{`${t('BASIC.TOTAL')}: ${totalPrice || '-'} BNB`}</div>
-                                            </div>
-                                            <Button color="primary"
-                                                    wideMobile
-                                                    disabled={buying || isNaN(totalPrice) || !totalPrice}
-                                                    onClick={async () => {
-                                                        const {account} = await login();
-                                                        await tokenContract.methods
-                                                        setBuying(true)
-                                                        try{
-                                                            const result = await shopContract.methods.buy(utils.asciiToHex(tokenName), amount).send({
-                                                                from: account,
-                                                                value: amount * flowerPrice
-                                                            })
-                                                            if (result && result.status) {
-                                                                toast.success(t('BASIC.BUY_SUCCESS'), {
-                                                                    position: "top-center",
-                                                                    autoClose: 4000,
-                                                                    hideProgressBar: true,
-                                                                    closeOnClick: true,
-                                                                    pauseOnHover: true,
-                                                                    draggable: true,
-                                                                    progress: undefined,
-                                                                });
-                                                                setBuying(false);
-                                                                setBuyModalOpen(false);
-                                                                return
-                                                            }
-                                                        }
-                                                        catch (e){
-                                                            console.error('buy token error', e);
-                                                        }
-                                                        toast.error(t('BASIC.BUY_FAIL'), {
-                                                            position: "top-center",
-                                                            autoClose: 4000,
-                                                            hideProgressBar: true,
-                                                            closeOnClick: true,
-                                                            pauseOnHover: true,
-                                                            draggable: true,
-                                                            progress: undefined,
-                                                        });
-                                                        setBuying(false);
-                                                        setBuyModalOpen(false);
-                                                    }}>
-                                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                                                    <span>{t('BASIC.BUY')}</span>
-                                                    {
-                                                        buying && <Spinner
-                                                            style={{marginLeft: 4}}
-                                                            as="span"
-                                                            animation="border"
-                                                            size="sm"
-                                                            role="status"
-                                                            aria-hidden="true"
-                                                        />
-                                                    }
-                                                </div>
-                                            </Button>
-                                        </div>
-                                    </Modal>
+                                    <Link to={'/shop'}>
+                                        <Button tag="a" color="primary" wideMobile>
+                                            {t('BASIC.GET_COINS')}
+                                        </Button>
+                                    </Link>
                                     <Button tag="a" color="dark" wideMobile
                                             href={`${exploreUrl}/token/${ERC20_ADDRESS}`}
                                             target={'_blank'}>

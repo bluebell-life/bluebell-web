@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { useLocation, Switch } from 'react-router-dom';
+import {useLocation, Switch, BrowserRouter} from 'react-router-dom';
 import AppRoute from './utils/AppRoute';
 import ScrollReveal from './utils/ScrollReveal';
 import ReactGA from 'react-ga';
@@ -10,6 +10,7 @@ import LayoutDefault from './layouts/LayoutDefault';
 import Home from './views/Home';
 import {ToastContainer} from "react-toastify"
 import {Web3ContextProvider} from "./contexts/Web3Context"
+import Shop from "./views/Shop";
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
 
@@ -34,12 +35,12 @@ const App = () => {
   return (
     <div>
       <Web3ContextProvider>
-        <ScrollReveal
-          ref={childRef}
+        <ScrollReveal ref={childRef}
           children={() => (
-            <Switch>
-              <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
-            </Switch>
+                <Switch>
+                  <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+                  <AppRoute exact path="/shop" component={Shop} layout={LayoutDefault} />
+                </Switch>
           )} />
       </Web3ContextProvider>
       <ToastContainer

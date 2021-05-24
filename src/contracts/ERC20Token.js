@@ -1,4 +1,6 @@
 export const ERC20_ADDRESS = process.env.REACT_APP_ERC20_ADDRESS
+export const BERRY_BELL_ADDRESS = process.env.REACT_APP_BERRY_BELL_ADDRESS
+export const NAVY_BELL_ADDRESS = process.env.REACT_APP_NAVY_BELL_ADDRESS
 export const ERC20_ABI = [
   {
     "inputs": [

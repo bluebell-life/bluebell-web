@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Logo from './partials/Logo';
 import {useTranslation} from "react-i18next"
 import {useWeb3} from "../../contexts/Web3Context"
+import {Link} from "react-router-dom";
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -109,15 +110,15 @@ const Header = ({
                     isActive && 'is-active'
                   )}>
                 <div className="header-nav-inner">
-                  {/*<ul className={*/}
-                  {/*  classNames(*/}
-                  {/*    'list-reset text-xs',*/}
-                  {/*    navPosition && `header-nav-${navPosition}`*/}
-                  {/*  )}>*/}
-                  {/*  <li>*/}
-                  {/*    <Link to="#0" onClick={closeMenu}>Documentation</Link>*/}
-                  {/*  </li>*/}
-                  {/*</ul>*/}
+                  <ul className={
+                    classNames(
+                      'list-reset text-xs',
+                      navPosition && `header-nav-${navPosition}`
+                    )}>
+                    <li>
+                      <Link to="shop">Shop</Link>
+                    </li>
+                  </ul>
                   {!hideSignin &&
                     <ul
                       className="list-reset header-nav-right"

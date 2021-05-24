@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router} from "react-router-dom";
+import {BrowserRouter, Router} from "react-router-dom";
 import {createBrowserHistory} from "history";
 import Modal from 'react-modal';
 
@@ -29,9 +29,9 @@ Modal.defaultStyles.content = {
 const history = createBrowserHistory();
 
 ReactDOM.render(
-    <Router history={history}>
+    <BrowserRouter history={history}>
         <App/>
-    </Router>,
+    </BrowserRouter>,
     document.getElementById('root')
 );
 
