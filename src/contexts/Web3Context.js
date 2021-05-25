@@ -3,7 +3,7 @@ import Web3 from "web3"
 import {toast} from "react-toastify"
 import {useTranslation} from "react-i18next"
 import {FLOWER_SHOP_ABI, FLOWER_SHOP_ADDRESS} from "../contracts/FlowerShop"
-import {ERC20_ABI, ERC20_ADDRESS} from "../contracts/ERC20Token"
+import {ERC20_ABI} from "../contracts/ERC20Token"
 
 const Web3Context = React.createContext({web3: null});
 

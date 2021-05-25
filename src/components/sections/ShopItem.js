@@ -62,21 +62,21 @@ const ShopItem = ({name, details, color, address, image, animation, delay}) => {
             <div className="testimonial-item-footer text-xs mt-32 mb-0 has-top-divider">
                 <span className="testimonial-item-name text-color-high">{name}</span>
                 <span className="text-color-low"> / </span>
-                <a href="#" onClick={async () => {
+                <span className="cursor-pointer" onClick={async () => {
                     const fp = await shopContract.methods.flowerPrice(utils.asciiToHex(tokenName)).call()
                     setFlowerPrice(fp)
                     const contract = tokenContract(address)
                     const fi = await contract.methods.balanceOf(FLOWER_SHOP_ADDRESS).call();
                     setInventory(fi)
                     setBuyModalOpen(true)
-                }}>{t('BASIC.BUY')} {tokenName}</a>
+                }}>{t('BASIC.BUY')} {tokenName}</span>
             </div>
         </div>
         <Modal isOpen={buyModalOpen} onRequestClose={() => setBuyModalOpen(false)}>
             <div style={{display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center'}}>
-                <div className="text-color-primary mb-16" style={{fontSize: 32, fontWeight: 'bold'}}>
+                <div className="text-color-primary mb-16" style={{fontSize: 32, fontWeight: 'bold', color}}>
                     {t('BASIC.BUY')} {tokenName}
                 </div>
                 <div className="mb-16">
@@ -93,7 +93,7 @@ const ShopItem = ({name, details, color, address, image, animation, delay}) => {
                     </div>
                     <div className="mb-16">{`${t('BASIC.TOTAL')}: ${totalPrice || '-'} BNB`}</div>
                 </div>
-                <Button color="primary"
+                <Button style={{backgroundColor: color, color: '#fff'}}
                         wideMobile
                         disabled={buying || isNaN(totalPrice) || !totalPrice}
                         onClick={async () => {

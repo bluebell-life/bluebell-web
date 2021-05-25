@@ -65,11 +65,11 @@ const Hero = ({
                             </div>
                             <div className="reveal-from-bottom" data-reveal-delay="600">
                                 <ButtonGroup>
-                                    <Link to={'/shop'}>
-                                        <Button tag="a" color="primary" wideMobile>
-                                            {t('BASIC.GET_COINS')}
+                                        <Button color="primary" wideMobile>
+                                            <Link to={'/shop'}>
+                                                {t('BASIC.GET_COINS')}
+                                            </Link>
                                         </Button>
-                                    </Link>
                                     <Button tag="a" color="dark" wideMobile
                                             href={`${exploreUrl}/token/${ERC20_ADDRESS}`}
                                             target={'_blank'}>
